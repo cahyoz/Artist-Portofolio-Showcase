@@ -1,0 +1,16 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "charity_2.1.moc3",
+    "Textures": ["textures/texture_00.png"],
+    "Physics": "charity_2.1.physics3.json",
+    "DisplayInfo": "charity_2.1.cdi3.json"
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": []
+    }
+  ]
+}
