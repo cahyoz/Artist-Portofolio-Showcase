@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import "./App.css";
-import CarouselArt from "./components/Carousel_art";
 import Hero from "./components/hero";
 import Gallery from "./components/Gallery";
 
