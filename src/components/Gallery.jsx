@@ -1,5 +1,14 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  animate,
+  easeOut,
+  easeIn,
+} from "framer-motion";
+import useMeasure from "react-use-measure";
+import { div } from "framer-motion/client";
 
 export default function Gallery() {
   const portraitArt = [
@@ -19,126 +28,272 @@ export default function Gallery() {
     "https://pbs.twimg.com/media/GqaDwQcXsAAn7wW?format=jpg&name=large",
   ];
 
-  const [showPortrait, setShowPortrait] = useState(true);
+  const [showThumbnails, setShowThumbnails] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [currentImage, setCurrentImage] = useState("");
 
   const thumbnailClick = (image) => {
     setCurrentImage(image);
+    setInitialLoad(false);
+    setShowThumbnails(true);
   };
-  // Animation variants for container
-  const containerVariants = {
-    expand: { width: "auto" },
-    collapse: { width: "auto" },
+  const sidebarVariants = {
+    open: {
+      width: "auto",
+      transition: {
+        duration: 0.3,
+        staggerChildren: 0.1,
+        when: "beforeChildren",
+      },
+    },
+    closed: {
+      width: "auto",
+      transition: {
+        duration: 0.3,
+        when: "afterChildren",
+      },
+    },
   };
 
   // Animation variants for thumbnails panel
   const thumbnailsVariants = {
-    visible: {
+    open: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 0.3,
-      },
-    },
-    hidden: {
-      opacity: 0,
-      x: 100,
+      width: "auto",
       transition: {
         type: "spring",
         stiffness: 300,
         damping: 30,
-        duration: 0.3,
+      },
+    },
+    closed: {
+      opacity: 0,
+      x: 100,
+      width: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
       },
     },
   };
 
+  // Button animation variants
+  const buttonVariants = {
+    open: { x: 0 },
+    closed: { x: 0 },
+  };
+
+  let [ref, { width }] = useMeasure();
+  let [landscapeRef, { width: landscapeWidth }] = useMeasure();
+
+  const xTranslation = useMotionValue(0);
+  const xTranslationLandscape = useMotionValue(0);
+
+  useEffect(() => {
+    let controls;
+    let finalPosition = -landscapeWidth * landscapeArt.length;
+
+    controls = animate(xTranslationLandscape, [0, finalPosition], {
+      ease: "linear",
+      duration: 15,
+      repeat: Infinity,
+      repeatType: "loop",
+      repeatDelay: 0,
+    });
+
+    return controls.stop;
+  }, [xTranslationLandscape, landscapeWidth]);
+
+  useEffect(() => {
+    let controls;
+    let finalPosition = -width * portraitArt.length;
+
+    controls = animate(xTranslation, [0, finalPosition], {
+      ease: "linear",
+      duration: 10,
+      repeat: Infinity,
+      repeatType: "loop",
+      repeatDelay: 0,
+    });
+
+    return controls.stop;
+  }, [xTranslation, width]);
+
   return (
     <div className="flex flex-row-reverse h-screen w-screen">
-      <div
-        layout="position"
+      <motion.div
         className="flex flex-row h-full"
-        variants={containerVariants}
-        transition={{ duration: 0.3 }}
+        initial="open"
+        animate={showThumbnails ? "open" : "closed"}
+        variants={sidebarVariants}
       >
-        <button
-          layout="position"
-          onClick={() => setShowPortrait(!showPortrait)}
-          className="px-2 py-1 bg-blue-500 text-white rounded z-10"
+        <motion.button
+          variants={buttonVariants}
+          onClick={() => setShowThumbnails(!showThumbnails)}
+          className=" px-10 py-1 text-white z-10 rounded-none"
+          style={{ borderRadius: 0 }}
         >
-          {showPortrait ? " <" : ">"}
-        </button>
+          {showThumbnails ? " <" : ">"}
+        </motion.button>
 
-        <AnimatePresence initial="false">
-          {showPortrait ? (
+        <motion.div
+          variants={thumbnailsVariants}
+          className="flex flex-row overflow-hidden"
+        >
+          <div
+            className="h-full w-40 bg-[#EFBC72] overflow-y-auto"
+            onWheel={(e) => e.stopPropagation()}
+          >
+            {landscapeArt.map((src, index) => (
+              <motion.img
+                key={`landscape-${index}`}
+                src={src}
+                alt="landscape thumbnail"
+                onClick={() => thumbnailClick(src)}
+                className="p-2"
+                whileHover={{
+                  scale: 1.1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 10,
+                  },
+                }}
+              />
+            ))}
+          </div>
+          <div
+            className="h-full w-36 bg-[#394B84] overflow-y-auto overflow-x-hidden"
+            onWheel={(e) => e.stopPropagation()}
+          >
+            {portraitArt.map((src, index) => (
+              <motion.img
+                key={`portrait-${index}`}
+                src={src}
+                alt="portrait thumbnail"
+                onClick={() => thumbnailClick(src)}
+                className="p-2"
+                whileHover={{
+                  scale: 1.1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 10,
+                  },
+                }}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
+
+      <div className="relative flex-1 flex items-center justify-center overflow-hidden">
+        <AnimatePresence mode="wait">
+          {initialLoad ? (
+            <div className="flex flex-col h-full gap-y-1 p-4">
+              <div className="flex-grow w-full overflow-x-hidden flex flex-row overflow-hidden">
+                <motion.div
+                  key="initial"
+                  className="flex flex-row"
+                  style={{ x: xTranslation }}
+                >
+                  {[...portraitArt, ...portraitArt, ...portraitArt].map(
+                    (src, index) => (
+                      <motion.img
+                        ref={ref}
+                        key={`portrait-${index}`}
+                        src={src}
+                        alt="portrait thumbnail"
+                        onClick={() => thumbnailClick(src)}
+                        className="w-52 h-full px-2 object-cover"
+                        custom={index}
+                        exit="exit"
+                        variants={{
+                          exit: (i) => ({
+                            scale: 0,
+                            transition: {
+                              delay: i * 0.05,
+                              ease: "easeInOut",
+                            },
+                          }),
+                        }}
+                        whileHover={{
+                          scale: 1.1,
+                          transition: {
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 10,
+                          },
+                        }}
+                      />
+                    )
+                  )}
+                </motion.div>
+              </div>
+              <div
+                className="w-full overflow-x-hidden flex flex-row overflow-hidden"
+                exit={{ opacity: 0, duration: 5 }}
+              >
+                <motion.div
+                  className="flex flex-row"
+                  style={{ x: xTranslationLandscape }}
+                >
+                  {[...landscapeArt, ...landscapeArt, ...landscapeArt].map(
+                    (src, index) => (
+                      <motion.img
+                        ref={landscapeRef}
+                        key={`landscape-${index}`}
+                        src={src}
+                        custom={index}
+                        exit="exit"
+                        variants={{
+                          exit: (i) => ({
+                            opacity: 0,
+                            scale: 0,
+                            transition: { delay: i * 0.2 }, // stagger by 50ms per item
+                          }),
+                        }}
+                        alt="landscape thumbnail"
+                        onClick={() => thumbnailClick(src)}
+                        className="px-3 h-100 object-cover"
+                        whileHover={{
+                          scale: 1.1,
+                          transition: {
+                            type: "spring",
+                            stiffness: 200,
+                            damping: 10,
+                          },
+                        }}
+                      />
+                    )
+                  )}
+                </motion.div>
+              </div>
+            </div>
+          ) : (
             <motion.div
-              variants={thumbnailsVariants}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              className="flex flex-auto"
+              key={currentImage}
+              className="relative w-full h-full flex items-center justify-center"
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.5, ease: "easeOut", type: "spring" }}
             >
-              <div
-                key="landscape"
-                className="h-full w-40 bg-amber-300 overflow-hidden"
-              >
-                {landscapeArt.map((src, index) => (
-                  <motion.img
-                    key={index}
-                    src={src}
-                    alt="thumbnail"
-                    onClick={() => thumbnailClick(src)}
-                    className="p-2"
-                    whileHover={{
-                      scale: 1.1,
-                      transition: {
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 10,
-                      },
-                    }}
-                  />
-                ))}
-              </div>
-              <div
-                key="portrait"
-                className="h-full w-36 bg-amber-950 overflow-y-auto"
-                variants={thumbnailsVariants}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-                onWheel={(e) => e.stopPropagation()}
-              >
-                {portraitArt.map((src, index) => (
-                  <motion.img
-                    key={index}
-                    src={src}
-                    alt="thumbnail"
-                    onClick={() => thumbnailClick(src)}
-                    className="p-2"
-                    whileHover={{
-                      scale: 1.1,
-                      transition: {
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 10,
-                      },
-                    }}
-                  />
-                ))}
-              </div>
+              <img
+                src={currentImage}
+                className="absolute scale-110 object-contain blur-2xl -z-10"
+                alt=""
+              />
+              <img
+                src={currentImage}
+                className="max-w-full max-h-full object-contain z-10 p-5"
+                alt=""
+              />
             </motion.div>
-          ) : null}
+          )}
         </AnimatePresence>
-      </div>
-      <div className="relative flex-1 flex items-center justify-center m-12 overflow-hidden">
-        <motion.img
-          key={currentImage}
-          src={currentImage}
-          className="max-w-full max-h-full object-contain z-10"
-          initial={{ x: 100, opacity: 0.5 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut", type: "spring" }}
-        />
       </div>
     </div>
   );

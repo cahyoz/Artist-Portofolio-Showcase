@@ -11,16 +11,15 @@ const Hero = ({ scrollToSection }) => {
         <motion.div className="h-80 aspect-[2/1] m-4">
           <SvgIcon />
         </motion.div>
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-6">
           <ButtonHover
             text="Gallery"
-            onClick={() => scrollToSection("carousel")}
+            // onClick={() => scrollToSection("carousel")}
           />
           <ButtonHover text="Commission" />
           <ButtonHover text="Click Me" />
         </div>
       </div>
-      ~
     </section>
   );
 };

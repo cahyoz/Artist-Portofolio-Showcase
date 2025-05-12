@@ -4,36 +4,30 @@ import Hero from "./components/hero";
 import Gallery from "./components/Gallery";
 
 function App() {
-  const heroRef = useRef(null);
-  const carouselRef = useRef(null);
-  const [activePage, setActivePage] = useState("hero");
+  // const heroRef = useRef(null);
+  // const carouselRef = useRef(null);
+  // const [activePage, setActivePage] = useState("hero");
 
-  const handleScroll = (e) => {
-    if (e.deltaY < 0) {
-      heroRef.current?.scrollIntoView({ behavior: "instant" });
-    }
-  };
+  // const handleScroll = (e) => {
+  //   if (e.deltaY < 0) {
+  //     heroRef.current?.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
-  const scrollToSection = (section) => {
-    setActivePage(section);
-    if (section === "carousel") {
-      carouselRef.current?.scrollIntoView({ behavior: "instant" });
-    }
-  };
+  // const scrollToSection = (section) => {
+  //   setActivePage(section);
+  //   if (section === "carousel") {
+  //     carouselRef.current?.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   return (
-    <div className="h-screen w-screen overflow-hidden" onWheel={handleScroll}>
-      <section
-        ref={heroRef}
-        className="h-screen flex items-center justify-center "
-      >
-        <Hero scrollToSection={scrollToSection} />
+    <div className="h-screen w-screen overflow-y-auto">
+      <section className="h-screen flex items-center justify-center ">
+        <Hero />
       </section>
-      <section
-        ref={carouselRef}
-        className="h-screen flex items-center justify-center"
-      >
-        {activePage === "carousel" && <Gallery />}
+      <section className="h-screen flex items-center justify-center">
+        <Gallery />
       </section>
     </div>
   );
