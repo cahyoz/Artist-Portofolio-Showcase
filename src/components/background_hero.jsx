@@ -29,6 +29,7 @@ const BackgroundHero = () => {
       >
         <Live2DCanvas />
       </motion.div>
+      {/* add a triangle foreground here */}
     </div>
   );
 };

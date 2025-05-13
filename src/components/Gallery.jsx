@@ -89,15 +89,15 @@ export default function Gallery() {
   let [landscapeRef, { width: landscapeWidth }] = useMeasure();
 
   const xTranslation = useMotionValue(0);
-  const xTranslationLandscape = useMotionValue(0);
+  const xTranslationLandscape = useMotionValue(1);
 
   useEffect(() => {
     let controls;
     let finalPosition = -landscapeWidth * landscapeArt.length;
 
-    controls = animate(xTranslationLandscape, [0, finalPosition], {
+    controls = animate(xTranslationLandscape, [finalPosition, 0], {
       ease: "linear",
-      duration: 15,
+      duration: 20,
       repeat: Infinity,
       repeatType: "loop",
       repeatDelay: 0,
@@ -192,7 +192,7 @@ export default function Gallery() {
       <div className="relative flex-1 flex items-center justify-center overflow-hidden">
         <AnimatePresence mode="wait">
           {initialLoad ? (
-            <div className="flex flex-col h-full gap-y-1 p-4">
+            <div className="flex flex-col h-full gap-y-2 p-4">
               <div className="flex-grow w-full overflow-x-hidden flex flex-row overflow-hidden">
                 <motion.div
                   key="initial"
@@ -285,6 +285,13 @@ export default function Gallery() {
                 src={currentImage}
                 className="absolute scale-110 object-contain blur-2xl -z-10"
                 alt=""
+              />
+              <div
+                className="absolute inset-0 z-0 bg-[url('assets\image\icon_bg.png')] scal opacity-50"
+                style={{
+                  backgroundRepeat: "repeat",
+                  backgroundSize: "150px 150px",
+                }}
               />
               <img
                 src={currentImage}
