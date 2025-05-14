@@ -122,7 +122,7 @@ export default function Gallery() {
   }, [xTranslation, width]);
 
   return (
-    <div className="flex flex-row-reverse h-screen w-screen">
+    <div className="flex flex-row-reverse h-screen w-screen overflow-x-hidden">
       <motion.div
         className="flex flex-row h-full"
         initial="open"
