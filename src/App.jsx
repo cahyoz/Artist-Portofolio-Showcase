@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 import Hero from "./components/hero";
 import Gallery from "./components/Gallery";
+import InfoPage from "./components/info_page";
 
 function App() {
   // const heroRef = useRef(null);
@@ -28,6 +29,9 @@ function App() {
       </section>
       <section className="h-screen flex items-center justify-center">
         <Gallery />
+      </section>
+      <section className="h-screen flex items-center justify-center">
+        <InfoPage />
       </section>
     </div>
   );
