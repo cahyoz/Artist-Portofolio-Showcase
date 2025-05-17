@@ -19,7 +19,7 @@ const InfoPage = () => {
   return (
     // parent
     <div className="flex flex-col w-screen h-screen p-6">
-      <h1>tittle</h1>
+      <h1 style={{ fontFamily: "'Patrick Hand'" }}>Commission Details</h1>
       <div className="flex flex-row flex-1 gap-4 py-2">
         {/* ordering, do and donts */}
         <div className="flex flex-col flex-1 gap-4 ">
@@ -130,10 +130,10 @@ const InfoPage = () => {
               </ul>
             </NoteBookBox>
           </div>
-          <div className="w-full h-full flex justify-end gap-2">
+          <div className="w-full h-full flex justify-end items-center gap-2">
             <div className="bg-white px-4 py-2 rounded-xl shadow-md text-sm max-w-xs self-start mt-2">
               <p>Feel free to ask further more on</p>
-              <a href="">
+              <div className="flex items-center gap-2 mt-1">
                 <motion.img
                   whileTap={{ scale: 1.0 }}
                   whileHover={{
@@ -146,9 +146,12 @@ const InfoPage = () => {
                   }}
                   src="https://cdn.simpleicons.org/discord"
                   alt="Discord Logo"
-                  className="w-8"
+                  className="w-5"
                 />
-              </a>
+                <p>
+                  username: <b>yozzun</b>
+                </p>
+              </div>
             </div>
             <img
               src="src\assets\image\owarida.jpg"
