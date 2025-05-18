@@ -257,7 +257,7 @@ const InfoPage = () => {
               </div>
             </div>
             <img
-              src="src\assets\image\owarida.jpg"
+              src="\owarida.jpg"
               alt="Commission sample"
               style={{
                 height: "100%",

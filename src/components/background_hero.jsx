@@ -27,7 +27,7 @@ const BackgroundHero = () => {
         style={{
           clipPath: "polygon(100% -200%, 0% 100%, 100% 100%)",
           backgroundImage:
-            "linear-gradient(rgba(30,55,103,0.5), rgba(47,77,133,1)),url('src/assets/image/bd.jpg')",
+            "linear-gradient(rgba(30,55,103,0.5), rgba(47,77,133,1)),url('/bd.jpg')",
           backgroundPosition: "35% 50%",
           backgroundSize: "80%",
         }}
