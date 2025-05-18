@@ -4,11 +4,9 @@ import {
   AnimatePresence,
   useMotionValue,
   animate,
-  easeOut,
-  easeIn,
+  inView,
 } from "framer-motion";
 import useMeasure from "react-use-measure";
-import { div } from "framer-motion/client";
 
 export default function Gallery() {
   const portraitArt = [
