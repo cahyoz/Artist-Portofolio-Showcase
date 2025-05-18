@@ -285,7 +285,7 @@ export default function Gallery() {
                 alt=""
               />
               <div
-                className="absolute inset-0 z-0 bg-[url('\icon_bg.png')] scal opacity-50"
+                className="absolute inset-0 z-0 bg-[url('/icon_bg.png')] opacity-50"
                 style={{
                   backgroundRepeat: "repeat",
                   backgroundSize: "150px 150px",
