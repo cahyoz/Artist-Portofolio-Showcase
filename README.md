@@ -1,8 +1,23 @@
-# React + Vite
+# Hikarin's Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A just-for-fun proof of concept using [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display)  
+that spiraled into a cozy personal site with a **Live2D model**, **art gallery**, and **commission information**.
 
-Currently, two official plugins are available:
+Originally made to experiment with interactive models, this site became a little playground for:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✨ Showcasing my artworks
+- 🧠 Practicing front-end integration with Live2D
+- 📌 Sharing commission rules & process
+- 🌸 Adding a bit of personality to my online presence
+
+---
+
+## 🔗 Tech Stack
+
+- [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display)
+- HTML/CSS + Tailwind
+- JavaScript (Vanilla + a sprinkle of charm)
+- framer motion for the animation
+- Google Fonts (for that notebook aesthetic)
+
+---
