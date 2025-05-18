@@ -8,6 +8,8 @@ const SvgIcon = (props) => (
     // height="479"
     fill="none"
     viewBox="0 0 860 479"
+    width="100%"
+    height="100%"
   >
     <g id="logo">
       <motion.g
